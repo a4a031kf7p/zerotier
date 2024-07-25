@@ -22,7 +22,7 @@ token_name=$(grep "$argument_2" "$HOME/.zerotier/zerotier.conf" | tail -n1)
 
 
 #Testing argument_2
-if [ "$token_name" = "$argument_2" ] 2>> "$HOME/.zerotier/errors.log"; then
+if [ "$token_name" = "$argument_2" ]; then
      token=$(gpg -q -d "$HOME/.zerotier/${argument_2}.gpg") 2>> "$HOME/.zerotier/errors.log"
      authorization="Authorization: token "$token""
 else
