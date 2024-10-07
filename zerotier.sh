@@ -50,12 +50,14 @@ Usage: zerotier [Options] {token} {network} {member}
     --list-member TOKEN NETWORK
     --authorize TOKEN NETWORK MEMBER
     --deauthorize TOKEN NETWORK MEMBER
+    --remove TOKEN NETWORK MEMBER
 Options Summary
     -st, --save-token: Encrypt and save your token from the clipboard.
     -ln, --list-network: List current networks.
     -lm, --list-members: List network members.
     -a, --authorize: Authorize a network member.
-    -d, --deauthorize: Deauthorize a network member." 
+    -d, --deauthorize: Deauthorize a network member.
+    -r, --remove: Remove a network member." 
 }
 
 
@@ -86,14 +88,20 @@ curl -s -H "$authorization" "https://api.zerotier.com/api/v1/network/$argument_3
 
 
 #Authorize a network member
-authorize(){
+authorize_member(){
 curl -s -H "$authorization" -X POST "https://api.zerotier.com/api/v1/network/$argument_3/member/$argument_4" --data '{"config": {"authorized": true}}' | grep -Po "\"authorized\"\:\S{1,4}" 2>> $HOME/.zerotier/errors.log
 }
 
 
 #Deauthorize a network member
-deauthorize(){
+deauthorize_member(){
 curl -s -H "$authorization" -X POST "https://api.zerotier.com/api/v1/network/$argument_3/member/$argument_4" --data '{"config": {"authorized": false}}' | grep -Po "\"authorized\"\:\S{1,5}" 2>> $HOME/.zerotier/errors.log
+}
+
+
+#Remove a member
+remove_member(){
+    curl -s -X DELETE -H "$authorization" "https://api.zerotier.com/api/v1/network/$argument_3/member/$argument_4"
 }
 
 
@@ -114,12 +122,16 @@ if [ "$1" = "--list-members" ] || [ "$1" = "-lm" ]; then
 exit 23
 fi
 if [ "$1" = "--authorize" ] || [ "$1" = "-a" ]; then
-    authorize
+    authorize_member
 exit 24
 fi
 if [ "$1" = "--deauthorize" ] || [ "$1" = "-d" ]; then
-    deauthorize 
+    deauthorize_member
 exit 25
+fi
+if [ "$1" = "--remove" ] || [ "$1" = "-r" ]; then
+    remove_member
+exit 26
 else
     echo $error
     exit 26
