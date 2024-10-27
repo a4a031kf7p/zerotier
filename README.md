@@ -1,4 +1,4 @@
-Script to use ZeroTier APIs for personal use, List networks, network members, Authorize and Deauthorize Network Members.
+Script to use ZeroTier APIs for personal use, list networks, authorize, deauthorize, and remove network members.
 
 APIs source: https://docs.zerotier.com/api/central/examples
 
