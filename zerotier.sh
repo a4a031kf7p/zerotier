@@ -43,7 +43,7 @@ shred -zu $HOME/.zerotier/token.temp
 
 #Message for help use
 help(){
-echo "zerotier 1.3
+echo "zerotier 1.4
 Usage: zerotier [Options] {token} {network} {member}
     --save-token NAME 
     --list-network TOKEN
